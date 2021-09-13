@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="jumbotron">
+            <h2>Hoja de vida</h2>
+
+            <embed src="~/Data/Cv.pdf" type="application/pdf" style="width:100%;height:410px;">
+        </div>
+    </div>
+    <div class="col-sm-6 jumbotron">
+        <h2>Cargue archivo CSV</h2>
+        <p>
+            Realizar el cargue del catálogo de productos a la base de datos desde un archivo
+            CSV para habilitar su posterior administración y venta a través de la página de la
+            compañía
+        </p>
+        <p><a class="btn btn-default" href="@Url.Action("CargueProductoIndex", "CSV")">Realizar cargue &raquo;</a></p>
+        <hr />
+        <h2>Servicios</h2>
+        <div class="row">
+            <div class="col-sm-6">
+                <select id="cboServicios" class="form-control">
+                    <option value="Consultar carrito">Consulta de carrito disponible (GET)</option>
+                    <option value="Consulta de productos Stock">Consulta de productos Stock (GET)</option>
+                    <option value="Agregar producto al carrito">Agregar producto al carrito (PUT)</option>
+                    <option value="Consultar items del carrito">Consultar items del carrito (GET)</option>
+                    <option value="Vaciar carrito">Vaciar carrito (DELETE)</option>
+                    <option value="Finalizar la compra">Finalizar la compra (PUT)</option>
+                </select>
+                <br />
+                <div id="divServicio">
+                    <textarea class="form-control" id="txtPeticion" style="height:100px;">../api/Carrito?IdUsuario=1</textarea>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div id="divDescripcionServicio" style="text-align:justify;">
+                    Consulta carrito por usuario registrado, en caso de no tener uno disponible lo crea y retorna el numero creado
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+

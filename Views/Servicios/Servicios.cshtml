@@ -1,0 +1,31 @@
+﻿
+@{
+    ViewBag.Title = "Servicios";
+}
+
+<div class="row jumbotron">
+   
+    <h2>Servicios</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <select id="cboServicios" class="form-control">
+                <option value="Consultar carrito">Consulta de carrito disponible (GET)</option>
+                <option value="Consulta de productos Stock">Consulta de productos Stock (GET)</option>
+                <option value="Agregar producto al carrito">Agregar producto al carrito (PUT)</option>
+                <option value="Consultar items del carrito">Consultar items del carrito (GET)</option>
+                <option value="Vaciar carrito">Vaciar carrito (DELETE)</option>
+                <option value="Finalizar la compra">Finalizar la compra (PUT)</option>
+            </select>
+            <br />
+            <div id="divServicio">
+                <textarea class="form-control" id="txtPeticion" style="height:100px;">../api/Carrito?IdUsuario=1</textarea>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div id="divDescripcionServicio" style="text-align:justify;">
+                Consulta carrito por usuario registrado, en caso de no tener uno disponible lo crea y retorna el numero creado
+            </div>
+        </div>
+    </div>
+</div>
+

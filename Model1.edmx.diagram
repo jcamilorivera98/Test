@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="bb4d0e3d6be347559e53527929ea7017" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="EntityModel.tblProducto" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="EntityModel.tblCarrito" Width="1.5" PointX="3" PointY="7.125" />
+        <EntityTypeShape EntityType="EntityModel.tblItemCarrito" Width="1.5" PointX="5.25" PointY="3.875" />
+        <EntityTypeShape EntityType="EntityModel.tblLog" Width="1.5" PointX="3" PointY="10.125" />
+        <EntityTypeShape EntityType="EntityModel.tblUsuario" Width="1.5" PointX="2.75" PointY="1" />
+        <EntityTypeShape EntityType="EntityModel.vwCarritoItems" Width="1.5" PointX="5.375" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

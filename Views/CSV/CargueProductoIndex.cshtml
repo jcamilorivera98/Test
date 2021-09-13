@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Cargar CSV producto";
+}
+<h2>@ViewBag.Title</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="jumbotron">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>Archivo CSV producto</label>
+                        <input type="file" class="form-control" id="InputFile" />
+                        <br />
+                        <a class="btn btn-info" onclick="CargarProductos();">Cargar</a>
+
+                    </div>
+                </div>
+                <div class="col-sm-8" id="DivResult">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
