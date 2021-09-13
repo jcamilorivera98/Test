@@ -1,0 +1,346 @@
+USE [master]
+GO
+/****** Object:  Database [db_a799ae_bdtest]    Script Date: 13/09/2021 8:36:18 a. m. ******/
+CREATE DATABASE [db_a799ae_bdtest]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'db_a799ae_bdtest_Data', FILENAME = N'H:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\db_a799ae_bdtest_DATA.mdf' , SIZE = 8192KB , MAXSIZE = 1024000KB , FILEGROWTH = 10%)
+ LOG ON 
+( NAME = N'db_a799ae_bdtest_Log', FILENAME = N'H:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\db_a799ae_bdtest_Log.LDF' , SIZE = 3072KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [db_a799ae_bdtest].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET  MULTI_USER 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET QUERY_STORE = OFF
+GO
+USE [db_a799ae_bdtest]
+GO
+/****** Object:  Table [dbo].[tblItemCarrito]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblItemCarrito](
+	[IdItem] [int] IDENTITY(1,1) NOT NULL,
+	[IdProducto] [int] NOT NULL,
+	[IdCarrito] [int] NOT NULL,
+	[Cantidad] [int] NOT NULL,
+	[FechaRegistro] [datetime] NOT NULL,
+ CONSTRAINT [PK_tblItemCarrito] PRIMARY KEY CLUSTERED 
+(
+	[IdItem] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tblProducto]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblProducto](
+	[IdProducto] [int] IDENTITY(1,1) NOT NULL,
+	[Nombre] [varchar](200) NOT NULL,
+	[Marca] [varchar](200) NOT NULL,
+	[Precio] [decimal](18, 2) NOT NULL,
+	[CantStock] [int] NOT NULL,
+	[Estado] [varchar](100) NOT NULL,
+	[PorcentajeDescuento] [int] NOT NULL,
+	[UsuarioRegistro] [int] NOT NULL,
+	[FechaRegistro] [datetime] NOT NULL,
+	[UsuarioActualizacion] [int] NOT NULL,
+	[FechaActualizacion] [datetime] NOT NULL,
+ CONSTRAINT [PK_tblProducto] PRIMARY KEY CLUSTERED 
+(
+	[IdProducto] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  View [dbo].[vwCarritoItems]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[vwCarritoItems]
+AS
+SELECT item.IdItem, producto.IdProducto, producto.Nombre, producto.Marca, producto.PorcentajeDescuento, producto.Precio, item.Cantidad, item.IdCarrito
+FROM   dbo.tblItemCarrito AS item INNER JOIN
+             dbo.tblProducto AS producto ON producto.IdProducto = item.IdProducto
+GO
+/****** Object:  Table [dbo].[tblCarrito]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblCarrito](
+	[IdCarrito] [int] IDENTITY(1,1) NOT NULL,
+	[IdUsuario] [int] NOT NULL,
+	[FechaRegistro] [datetime] NOT NULL,
+	[EstadoCompra] [varchar](100) NOT NULL,
+	[TotalCompra] [decimal](16, 2) NOT NULL,
+ CONSTRAINT [PK_tblCarrito] PRIMARY KEY CLUSTERED 
+(
+	[IdCarrito] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tblLog]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblLog](
+	[IdLog] [int] IDENTITY(1,1) NOT NULL,
+	[Operacion] [varchar](100) NOT NULL,
+	[Modulo] [varchar](150) NOT NULL,
+	[IdentificadorRegistro] [int] NOT NULL,
+	[NombreTablaRegistro] [varchar](150) NOT NULL,
+	[UsuarioRegistro] [int] NOT NULL,
+	[Fecha] [datetime] NOT NULL,
+	[Comentario] [text] NOT NULL,
+ CONSTRAINT [PK_tblLog] PRIMARY KEY CLUSTERED 
+(
+	[IdLog] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tblUsuario]    Script Date: 13/09/2021 8:36:20 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblUsuario](
+	[IdUsuario] [int] IDENTITY(1,1) NOT NULL,
+	[Descripcion] [varchar](100) NOT NULL,
+	[Password] [varchar](100) NOT NULL,
+	[Identificacion] [varchar](150) NOT NULL,
+	[Nombre] [varchar](150) NOT NULL,
+	[Apellido] [varchar](150) NOT NULL,
+	[FechaCreacion] [datetime] NOT NULL,
+	[UsuarioCreacion] [int] NOT NULL,
+	[FechaActualizacion] [datetime] NOT NULL,
+	[UsuarioActualizacion] [int] NOT NULL,
+ CONSTRAINT [PK_tblUsuario] PRIMARY KEY CLUSTERED 
+(
+	[IdUsuario] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[tblUsuario] ON 
+GO
+INSERT [dbo].[tblUsuario] ([IdUsuario], [Descripcion], [Password], [Identificacion], [Nombre], [Apellido], [FechaCreacion], [UsuarioCreacion], [FechaActualizacion], [UsuarioActualizacion]) VALUES (1, N'JCAMILORIVERA98', N'12345678', N'1234090819', N'Juan Camilo', N'Rivera Muñoz', CAST(N'2021-09-11T13:03:49.123' AS DateTime), 1, CAST(N'2021-09-11T13:03:49.123' AS DateTime), 1)
+GO
+INSERT [dbo].[tblUsuario] ([IdUsuario], [Descripcion], [Password], [Identificacion], [Nombre], [Apellido], [FechaCreacion], [UsuarioCreacion], [FechaActualizacion], [UsuarioActualizacion]) VALUES (2, N'PRUEBA', N'PRUEBA', N'PRUEBA', N'PRUEBA', N'PRUEBA', CAST(N'2021-09-11T13:03:49.123' AS DateTime), 1, CAST(N'2021-09-11T13:03:49.123' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblUsuario] OFF
+GO
+ALTER TABLE [dbo].[tblItemCarrito] ADD  CONSTRAINT [DF_tblItemCarrito_FechaRegistro]  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[tblProducto] ADD  CONSTRAINT [DF_tblProducto_FechaRegistro]  DEFAULT (getdate()) FOR [FechaRegistro]
+GO
+ALTER TABLE [dbo].[tblProducto] ADD  CONSTRAINT [DF_tblProducto_FechaRegistro1]  DEFAULT (getdate()) FOR [FechaActualizacion]
+GO
+ALTER TABLE [dbo].[tblUsuario] ADD  CONSTRAINT [DF_tblUsuario_FechaCreacion]  DEFAULT (getdate()) FOR [FechaCreacion]
+GO
+ALTER TABLE [dbo].[tblUsuario] ADD  CONSTRAINT [DF_Table_1_FechaCreacion1]  DEFAULT (getdate()) FOR [FechaActualizacion]
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPane1', @value=N'[0E232FF0-B466-11cf-A24F-00AA00A3EFFF, 1.00]
+Begin DesignProperties = 
+   Begin PaneConfigurations = 
+      Begin PaneConfiguration = 0
+         NumPanes = 4
+         Configuration = "(H (1[40] 4[20] 2[20] 3) )"
+      End
+      Begin PaneConfiguration = 1
+         NumPanes = 3
+         Configuration = "(H (1 [50] 4 [25] 3))"
+      End
+      Begin PaneConfiguration = 2
+         NumPanes = 3
+         Configuration = "(H (1 [50] 2 [25] 3))"
+      End
+      Begin PaneConfiguration = 3
+         NumPanes = 3
+         Configuration = "(H (4 [30] 2 [40] 3))"
+      End
+      Begin PaneConfiguration = 4
+         NumPanes = 2
+         Configuration = "(H (1 [56] 3))"
+      End
+      Begin PaneConfiguration = 5
+         NumPanes = 2
+         Configuration = "(H (2 [66] 3))"
+      End
+      Begin PaneConfiguration = 6
+         NumPanes = 2
+         Configuration = "(H (4 [50] 3))"
+      End
+      Begin PaneConfiguration = 7
+         NumPanes = 1
+         Configuration = "(V (3))"
+      End
+      Begin PaneConfiguration = 8
+         NumPanes = 3
+         Configuration = "(H (1[56] 4[18] 2) )"
+      End
+      Begin PaneConfiguration = 9
+         NumPanes = 2
+         Configuration = "(H (1 [75] 4))"
+      End
+      Begin PaneConfiguration = 10
+         NumPanes = 2
+         Configuration = "(H (1[66] 2) )"
+      End
+      Begin PaneConfiguration = 11
+         NumPanes = 2
+         Configuration = "(H (4 [60] 2))"
+      End
+      Begin PaneConfiguration = 12
+         NumPanes = 1
+         Configuration = "(H (1) )"
+      End
+      Begin PaneConfiguration = 13
+         NumPanes = 1
+         Configuration = "(V (4))"
+      End
+      Begin PaneConfiguration = 14
+         NumPanes = 1
+         Configuration = "(V (2))"
+      End
+      ActivePaneConfig = 0
+   End
+   Begin DiagramPane = 
+      Begin Origin = 
+         Top = 0
+         Left = 0
+      End
+      Begin Tables = 
+         Begin Table = "item"
+            Begin Extent = 
+               Top = 9
+               Left = 57
+               Bottom = 206
+               Right = 279
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+         Begin Table = "producto"
+            Begin Extent = 
+               Top = 9
+               Left = 336
+               Bottom = 206
+               Right = 606
+            End
+            DisplayFlags = 280
+            TopColumn = 0
+         End
+      End
+   End
+   Begin SQLPane = 
+   End
+   Begin DataPane = 
+      Begin ParameterDefaults = ""
+      End
+      Begin ColumnWidths = 9
+         Width = 284
+         Width = 1000
+         Width = 1000
+         Width = 1000
+         Width = 1000
+         Width = 1000
+         Width = 1000
+         Width = 1000
+         Width = 1000
+      End
+   End
+   Begin CriteriaPane = 
+      Begin ColumnWidths = 11
+         Column = 1440
+         Alias = 900
+         Table = 1170
+         Output = 720
+         Append = 1400
+         NewValue = 1170
+         SortType = 1350
+         SortOrder = 1410
+         GroupBy = 1350
+         Filter = 1350
+         Or = 1350
+         Or = 1350
+         Or = 1350
+      End
+   End
+End
+' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vwCarritoItems'
+GO
+EXEC sys.sp_addextendedproperty @name=N'MS_DiagramPaneCount', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'VIEW',@level1name=N'vwCarritoItems'
+GO
+USE [master]
+GO
+ALTER DATABASE [db_a799ae_bdtest] SET  READ_WRITE 
+GO
