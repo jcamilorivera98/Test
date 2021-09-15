@@ -319,6 +319,7 @@
     <Content Include="bin\roslyn\vbc.rsp" />
     <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <Content Include="bin\Test.dll.config" />
+    <Content Include="Data\Producto.csv" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\Js\Tienda.js" />
     <Content Include="Scripts\Js\Servicios.js" />
