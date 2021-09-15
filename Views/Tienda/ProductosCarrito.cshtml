@@ -1,0 +1,82 @@
+﻿@model IEnumerable<Test.vwCarritoItems>
+
+@{
+    decimal TotalFactura = 0;
+    int Cant = 0;
+}
+
+@{ if (Model.Count() >= 1)
+    {
+        <div class="row" style="padding:10px; max-height:350px;overflow-y: scroll;">
+
+            @foreach (var item in Model)
+            {
+                decimal ValorTotal = 0;
+                ValorTotal = item.Precio * item.Cantidad;
+                ValorTotal = ValorTotal - (ValorTotal * (item.PorcentajeDescuento / 100));
+                TotalFactura = TotalFactura + ValorTotal;
+                Cant = Cant + item.Cantidad;
+                <div class="col-sm-12">
+                    <div class="modal-content" style="  box-shadow: 4px 4px 9px 2px darkgrey; margin-top: 10px;    border-radius: 6px; padding:20px;">
+
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <img class="card-img-top" src="~/Data/Iphone.png" style="width:100px;" alt="Card image cap">
+
+                            </div>
+                            <div class="col-sm-6">
+                                <h5 class="card-title"><strong>@item.Nombre - marca: @item.Marca</strong></h5>
+                                <p class="card-text"> Descuento: @item.PorcentajeDescuento %</p>
+                                <p class="card-text">Seleccionados: @item.Cantidad </p>
+                            </div>
+                            <div class="col-sm-3">
+                                <p>Valor Unitario: <strong> $ @item.Precio.ToString("N0")</strong> </p>
+                                <p>Valor Total: <strong> $ @ValorTotal.ToString("N0")</strong> </p>
+                            </div>
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+                </div>
+
+
+
+            }
+
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-sm-4">
+                <label>Total productos: @Cant</label>
+                <label>Valor total: $ @TotalFactura.ToString("N0")</label>
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-danger" onclick="LimpiarCarrito(@Model.FirstOrDefault().IdCarrito)">Limpiar Carrito</a>
+              
+            </div>
+            <div class="col-sm-4">
+                <a class="btn btn-success" onclick="FinalizarCompra(@Model.FirstOrDefault().IdCarrito)">Finalizar compra</a>
+
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div class="row jumbotron" style="text-align:center;">
+            <label>No se han agregado items al carrito</label>
+            <br/>
+            <img class="card-img-top" src="~/Data/Carrito.png" data-toggle="modal" data-target="#ModalCarrito" style="width:50px; cursor:pointer;" alt="Card image cap">
+
+        </div>
+
+    }
+
+}

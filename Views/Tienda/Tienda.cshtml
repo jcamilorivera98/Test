@@ -1,0 +1,146 @@
+﻿@model IEnumerable<Test.tblProducto>
+
+@{
+    ViewBag.Title = "Tienda";
+}
+
+
+
+<div class="modal fade" id="ModalCarrito" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Carrito</h3>
+
+            </div>
+            <div class="modal-body" id="divDetailCarrito">
+                <div class="row"><div class="col-sm-4"></div><div class="col-sm-4" style="text-align: center;"><img src="http://www.lacosox.org/sites/default/files/cargando.gif"></div><div class="col-sm-4"></div></div>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalCargando" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Por favor espere ... </h3>
+
+            </div>
+            <div class="modal-body" style="height:350px;">
+                <br />
+                <div class="row" style="margin-top:100px;">
+                    <div class="col-sm-4"></div><div class="col-sm-4" style="text-align: center;">
+                        <img src="http://www.lacosox.org/sites/default/files/cargando.gif">
+                    </div><div class="col-sm-4"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <h2>Tienda</h2>
+
+    </div>
+    <div class="col-sm-6" style="text-align:end;margin-top:15px;">
+
+        <img class="card-img-top" src="~/Data/Carrito.png" data-toggle="modal" data-target="#ModalCarrito" onclick="ConsultarItemsCarrito();" style="width:50px; cursor:pointer;" alt="Card image cap">
+    </div>
+</div>
+<hr />
+
+<div class="row">
+
+    <div class="col-sm-2 jumbotron" style="padding:10px; margin-top:15px;">
+        <h3>Busqueda</h3>
+        <hr />
+        <div class="form-group">
+            <label>Nombre:</label>
+            <input class="form-control" id="txtNombre" />
+        </div>
+        <div class="form-group">
+            <label>Marca:</label>
+            <select class="form-control" id="cboMarca">
+                <option value=null> SELECCIONE</option>
+                @foreach (var item in ViewBag.ListaMarcas)
+                {
+                    <option value="@item">@item</option>
+
+                }
+            </select>
+
+        </div>
+        <div class="form-group">
+            <label>Precio:</label>
+
+            <div class="row">
+                <div class="col-sm-6">
+                    <input class="form-control" id="txtRangoInicial" placeholder="Min" type="number" min="0" />
+                </div>
+                <div class="col-sm-6">
+                    <input class="form-control" id="txtRangoFinal" placeholder="Max" type="number" min="0" />
+                </div>
+            </div>
+        </div>
+        <a class="btn btn-info" onclick="ConsultarProductos()">Consultar</a>
+        <a class="btn btn-danger" onclick="LimpiarFiltro()">X</a>
+
+    </div>
+    <div class="col-sm-10" id="divProductosStock">
+        <div class="row" style="padding:10px; max-height:500px;overflow-y: scroll;">
+
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-4">
+                    <div class="modal-content" style="  box-shadow: 4px 4px 9px 2px darkgrey; margin-top: 10px;    border-radius: 6px; padding:20px;">
+
+                        <div class="row">
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-6">   <img class="card-img-top" src="~/Data/Iphone.png" style="width:100px;" alt="Card image cap"></div>
+                            <div class="col-sm-3"></div>
+
+                        </div>
+
+
+
+                        <h5 class="card-title"><strong>@item.Nombre</strong></h5>
+                        <label class="card-title"><strong>@item.Marca</strong></label>
+                        <p class="card-text"> @item.Estado</p>
+                        <p class="card-text"><strong>$ @item.Precio.ToString("N0")</strong>  -   Disponibles: @item.CantStock</p>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <input class="form-control txtCant" id="txtCant_@item.IdProducto" value="1" min="1" type="number" style="width:50px;" />
+
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="#" class="btn btn-info" onclick="ConsultarCarritoUsuario(@item.IdProducto,1);" style="text-align:center;">Añadir al carrito</a>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+
+
+
+            }
+
+        </div>
+    </div>
+</div>
+

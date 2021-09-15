@@ -42,7 +42,7 @@ namespace Test.Controllers.Api.Carrito
 
 
         }
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult AddItemCarrito(int IdUsuario,int IdCarrito,int Cantidad,int IdProducto)
         {
             Resultado result = new Resultado();

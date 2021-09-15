@@ -1,40 +1,33 @@
 ﻿
 $(document).ready(function () {
-    $('#cboServicios').change(function () {
-        var cboServicios = $("#cboServicios").val();
-        var peticion = "";
-        var descripcion = "";
-        if (cboServicios == 'Consulta de productos Stock') {
-            peticion = "../api/Producto?PrecioInicial&PrecioFinal&Marca&Nombre";
-            descripcion = "Servicio que permita consultar de manera paginada los productos existentes"
-                + "en la base de datos.El servicio debe soportar la consulta de productos por" +
-                "los siguientes criterios: Por coincidencia del nombre completo o parte de él, Por rango de precios, Por marca.";
-        } else if (cboServicios == "Agregar producto al carrito") {
-            peticion = "../api/Carrito?IdUsuario=1&IdCarrito=1&Cantidad=1&IdProducto=2";
-            descripcion = "Servicio para agregar un producto al carrito de compras. El servicio debe"
-            +"validar que haya existencias suficientes del producto antes de ser agregado"+
-            "al carrito.";
-        }
-        else if (cboServicios == "Consultar items del carrito") {
-            peticion = "../api/Carrito?IdCarrito=1";
-            descripcion = "Servicio para consultar los productos agregados en el carrito de compras.";
-        } else if (cboServicios == "Vaciar carrito") {
-            peticion = "../api/Carrito?IdCarrito=1";
-            descripcion = "Servicio para vaciar el carrito de compras.";
-        }else if (cboServicios == "Finalizar la compra") {
-            peticion = "../api/Carrito?IdCarrito=1";
-            descripcion = "Servicio que permita finalizar la compra de los productos existentes en el"
-           +" carrito de compras afectando de manera oficial las existencias de los"
-            + "productos en la base de datos.";
-        } else if (cboServicios == "Consultar carrito") {
-            peticion = "../api/Carrito?IdUsuario=1";
-            descripcion = "Consulta carrito por usuario registrado, en caso de no tener uno disponible lo crea y retorna el numero creado";
+    $('#InputFile').change(function () {
+        var fileName = this.files[0].name;
+
+        // recuperamos la extensión del archivo
+        var ext = fileName.split('.').pop();
+
+        // Convertimos en minúscula porque
+        // la extensión del archivo puede estar en mayúscula
+        ext = ext.toLowerCase();
+
+        // console.log(ext);
+        switch (ext) {
+            case 'csv':
+            case 'CSV':
+                break;
+            default:
+                Swal.fire({
+                    title: '¡Error!',
+                    text: 'El archivo debe ser de extension CSV',
+                    icon: 'error',
+                    confirmButtonText: 'Cool'
+                });
+
+                this.value = ''; // reset del valor
+                this.files[0].name = '';
         }
 
 
-        $("#txtPeticion").val(peticion);
-        $("#divDescripcionServicio").html(descripcion);
-        
     });
 });
 
@@ -50,7 +43,7 @@ function CargarProductos() {
 
 
     $("#DivResult").html(
-        '<div class="row"><div class="col-sm-4"></div><div class="col-sm-4"><img src="http://www.lacosox.org/sites/default/files/cargando.gif"></div><div class="col-sm-4"></div></div>');
+        '<div class="row"><div class="col-sm-4"></div><div class="col-sm-4" style="text-align: center;"><img src="http://www.lacosox.org/sites/default/files/cargando.gif"></div><div class="col-sm-4"></div></div>');
 
     var formData = new FormData();
 

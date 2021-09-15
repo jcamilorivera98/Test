@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Test.tblProducto>
+
+<div class="row" style="padding:10px; max-height:500px;overflow-y: scroll;">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-4">
+            <div class="modal-content" style="  box-shadow: 4px 4px 9px 2px darkgrey; margin-top: 10px;    border-radius: 6px; padding:20px;">
+
+                <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">   <img class="card-img-top" src="~/Data/Iphone.png" style="width:100px;" alt="Card image cap"></div>
+                    <div class="col-sm-3"></div>
+
+                </div>
+
+
+
+                <h5 class="card-title"><strong>@item.Nombre</strong></h5>
+                <label class="card-title"><strong>@item.Marca</strong></label>
+                <p class="card-text"> @item.Estado</p>
+                <p class="card-text"><strong>$ @item.Precio.ToString("N0")</strong>  -   Disponibles: @item.CantStock</p>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <input class="form-control txtCant" id="txtCant_@item.IdProducto" value="1" min="1" type="number" style="width:50px;" />
+
+                        </div>
+                        <div class="col-sm-6">
+                            <a href="#" class="btn btn-info" onclick="ConsultarCarritoUsuario(@item.IdProducto,1);" style="text-align:center;">Añadir al carrito</a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    }
+</div>

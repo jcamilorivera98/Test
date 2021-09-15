@@ -10,7 +10,7 @@ namespace Test.Models.Producto.Dao
 {
     public class ProductoDao
     {
-        public static Entity db = new Entity();
+
         public static List<ProductoCls> GuardarCsv(DataTable dt)
         {
             //LogDao logdao = new LogDao();
@@ -123,6 +123,7 @@ namespace Test.Models.Producto.Dao
 
         public static List<tblProducto> GetListProductos(decimal? PrecioInicial, decimal? PrecioFinal, string Marca = null, string Nombre = null)
         {
+            Entity db = new Entity();
             var productos = db.tblProducto.ToList();
 
             if (PrecioInicial <= PrecioFinal && PrecioInicial > 0)

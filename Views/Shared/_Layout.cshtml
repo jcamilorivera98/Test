@@ -12,8 +12,9 @@
     @RenderSection("scripts", required: false)
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="//cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <script src="~/Scripts/CSV.js"></script>
-    <script src="~/Scripts/Servicios.js"></script>
+    <script src="~/Scripts/Js/CSV.js"></script>
+    <script src="~/Scripts/Js/Servicios.js"></script>
+    <script src="~/Scripts/Js/Tienda.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,7 +30,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("CSV", "CargueProductoIndex", "CSV")</li>
-                    <li>@Html.ActionLink("Servicios", "Servicios", "Servicios")</li>                   
+                  @*  <li>@Html.ActionLink("Servicios", "Servicios", "Servicios")</li>*@                   
+                    <li>@Html.ActionLink("Tienda", "Tienda", "Tienda")</li>                   
                 </ul>
             </div>
         </div>

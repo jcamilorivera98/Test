@@ -10,10 +10,11 @@ namespace Test.Models.Carrito.Dao
 {
     public class CarritoDao
     {
-        static Entity db = new Entity();
 
         public static tblCarrito GetCarrito(int IdUsuario)
         {
+            Entity db = new Entity();
+
             var carrito = db.tblCarrito.Where(d => d.IdUsuario == IdUsuario && d.EstadoCompra == "PENDIENTE").FirstOrDefault();
             var tblcarrito = new tblCarrito();
             if (carrito == null)
@@ -45,6 +46,8 @@ namespace Test.Models.Carrito.Dao
 
         public static Resultado AddItemCarrito(int IdUsuario, int IdCarrito, int Cantidad, int IdProducto)
         {
+            Entity db = new Entity();
+
             Resultado result = new Resultado();
 
             var ItemCarrito = db.tblItemCarrito.Where(d => d.IdProducto == IdProducto && d.IdCarrito == IdCarrito).FirstOrDefault();
@@ -132,6 +135,8 @@ namespace Test.Models.Carrito.Dao
 
         public static List<vwCarritoItems> GetItemsCarrito(int IdCarrito)
         {
+            Entity db = new Entity();
+
             List<vwCarritoItems> list = new List<vwCarritoItems>();
 
             list = db.vwCarritoItems.Where(d => d.IdCarrito == IdCarrito).ToList();
@@ -142,6 +147,8 @@ namespace Test.Models.Carrito.Dao
 
         public static Resultado VaciarCarrito(int IdCarrito)
         {
+            Entity db = new Entity();
+
             Resultado resultado = new Resultado();
             int contador = 0; ;
             var itemcarrito = db.tblItemCarrito.Where(d => d.IdCarrito == IdCarrito).ToList();
@@ -182,6 +189,8 @@ namespace Test.Models.Carrito.Dao
 
         public static Resultado CerrarCompra(int IdCarrito)
         {
+            Entity db = new Entity();
+
             Resultado resultado = new Resultado();           
             var itemcarrito = db.tblItemCarrito.Where(d => d.IdCarrito == IdCarrito).ToList();
             var carrito = db.tblCarrito.Where(d => d.IdCarrito == IdCarrito).FirstOrDefault();
@@ -192,9 +201,10 @@ namespace Test.Models.Carrito.Dao
                 {
 
                     var producto = db.tblProducto.Where(d => d.IdProducto == item.IdProducto).FirstOrDefault();
-                    producto.CantStock = producto.CantStock - item.Cantidad;                    
-                    carrito.TotalCompra = carrito.TotalCompra + ((producto.Precio * (producto.PorcentajeDescuento/100)) - producto.Precio);
-
+                    producto.CantStock = producto.CantStock - item.Cantidad;
+                    // carrito.TotalCompra = carrito.TotalCompra + ((producto.Precio * (producto.PorcentajeDescuento/100)) - producto.Precio);
+                    producto.FechaActualizacion = DateTime.Now;
+                    producto.UsuarioActualizacion = carrito.IdUsuario;
 
                     log.Operacion = "ACTUALIZACION";
                     log.Modulo = "PRODUCTO";
